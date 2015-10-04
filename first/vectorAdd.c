@@ -3,19 +3,7 @@
 #include<sys/time.h>
 #include<time.h>
 
-float calTime()
-{
-	struct timeval start;
-	float diff;
-
-	gettimeofday(&start, NULL); 
-	
-	diff = (start.tv_sec) * 1000.0 + (start.tv_usec);
-	//printf("%f\n",diff);
-	return diff;
-}
-
-void sequential_vectorAdd(int *a, int *b, int *c, int size){
+void sequential_naive_vectorAdd(int *a, int *b, int *c, int size){
 	for(int i = 0; i < size; i++){
 		c[i] = a[i] + b[i];
 	}
@@ -33,6 +21,26 @@ void sequential_vectorAdd_second_optimization(int *a, int *b, int *c, int size){
 	for(int i = 0; i < size; i += 2){
         c[i] = a[i] + b[i];
         c[i+1] = a[i+1] + b[i+1];
+    }   
+}
+
+void sequential_vectorAdd_third_optimization(int *a, int *b, int *c, int size){
+	for(int i = 0, j = size / 2; i < size / 2; i++, j++){
+        c[i] = a[i] + b[i];
+        c[j] = a[j] + b[j];
+    }   
+}
+
+void sequential_vectorAdd_forth_optimization(int *a, int *b, int *c, int size){
+	for(int i = 0; i < size; i += 8){
+        c[i] = a[i] + b[i];
+        c[i+1] = a[i+1] + b[i+1];
+        c[i+2] = a[i+2] + b[i+2];
+        c[i+3] = a[i+3] + b[i+3];
+        c[i+4] = a[i+4] + b[i+4];
+        c[i+5] = a[i+5] + b[i+5];
+        c[i+6] = a[i+6] + b[i+6];
+        c[i+7] = a[i+7] + b[i+7];
     }   
 }
 
@@ -61,17 +69,20 @@ int main(int argc, char *argv[]){
 		c[i] = 0;
 	}
 
+	// naive
+
 	gettimeofday(&start, NULL); 
 
-	sequential_vectorAdd(a, b, c, size);
+	sequential_naive_vectorAdd(a, b, c, size);
 
 	gettimeofday(&end, NULL); 
 	
-	float diff = (end.tv_sec - start.tv_sec) * 1000.0 + 
+	double diff = (end.tv_sec - start.tv_sec) * 1000.0 + 
 		(end.tv_usec - start.tv_usec);
 	
 	printf("Naive VectorAdd time calculation duration: %8.5fms\n", diff);
 	
+	// first
 	gettimeofday(&start, NULL); 
 
 	sequential_vectorAdd_first_optimization(a, b, c, size);
@@ -83,6 +94,7 @@ int main(int argc, char *argv[]){
 	
 	printf("First VectorAdd time calculation duration: %8.5fms\n", diff);
 	
+	// two
 	gettimeofday(&start, NULL); 
 
 	sequential_vectorAdd_second_optimization(a, b, c, size);
@@ -93,6 +105,32 @@ int main(int argc, char *argv[]){
 		(end.tv_usec - start.tv_usec);
 	
 	printf("Second VectorAdd time calculation duration: %8.5fms\n", diff);
+	
+	// three
+	gettimeofday(&start, NULL); 
+
+	sequential_vectorAdd_third_optimization(a, b, c, size);
+
+	gettimeofday(&end, NULL); 
+	
+	diff = (end.tv_sec - start.tv_sec) * 1000.0 + 
+		(end.tv_usec - start.tv_usec);
+	
+	printf("Third VectorAdd time calculation duration: %8.5fms\n", diff);
+	
+	// four
+	gettimeofday(&start, NULL); 
+
+	sequential_vectorAdd_forth_optimization(a, b, c, size);
+
+	gettimeofday(&end, NULL); 
+	
+	diff = (end.tv_sec - start.tv_sec) * 1000.0 + 
+		(end.tv_usec - start.tv_usec);
+	
+	printf("Fourth VectorAdd time calculation duration: %8.5fms\n", diff);
+	// TODO: validation
+	// TODO: validation
 	// TODO: validation
 	// TODO: validation
 	// TODO: validation

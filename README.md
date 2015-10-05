@@ -28,7 +28,7 @@ Then move to the new created branch (you have not to edit sources when you are i
 
 * `git checkout *your-name*`
 
-Now feel free to edit codes and commits. (those who forked the project can push to their repository)
+Now feel free to edit codes and perform commits. (those who forked the project can push to their repository freely)
 
 And after each update of the repository go to directory `GPUProgrammingT.A.Class` and run:
 
@@ -36,4 +36,4 @@ And after each update of the repository go to directory `GPUProgrammingT.A.Class
  
 **Important** 
 
-if you have changed any parts of your code into something else, you have to merge repositories. For this purpose you have to create pull request in this reposistory.
+if you have changed any parts of your code, you have to merge repositories in order to make sure everything is updated. For this purpose you have to create pull request in this reposistory.

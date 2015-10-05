@@ -1,16 +1,16 @@
 #### GPUProgramming T.A.Class codes and stuff.
 
-**To Students:**
+ **To Students:**
 
-You can either fork the repository, download sourcecode zip file, or get it with git.
+ You can either fork the repository, download sourcecode zip file, or get it with git.
 
-**To working with git**
+**To working with git:**
 
 At first time:
 
-change current directory to an arbitrary one, e.g:
+change current directory to an arbitrary one, e.g (change directory to your home):
 
-* `cd Desktop`
+* `cd ~`
  
 and then run this command to get sources:
 

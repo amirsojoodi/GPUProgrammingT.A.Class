@@ -1,6 +1,7 @@
 #### GPUProgramming T.A.Class codes and stuff.
 
 **To Students:**
+
 You can either fork the repository, download sourcecode zip file, or get it with git.
 
 **To working with git**
@@ -21,4 +22,6 @@ Now feel free to edit codes and commits. (those who forked the project can push 
 
 And after each update of the repository go to directory `GPUProgrammingT.A.Class` and run:
 * `git pull`
-**Important** if you have changed any parts of your code into something else, you have to merge repositories. For this purpose you have to create pull request in this reposistory.
+* 
+**Important** 
+if you have changed any parts of your code into something else, you have to merge repositories. For this purpose you have to create pull request in this reposistory.

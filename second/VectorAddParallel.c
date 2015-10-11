@@ -28,11 +28,13 @@ void validate(int *a, int *b, int length) {
 void *naive_parallel_vector_add(void *arg){
 	argument targ = *(argument *)arg;
 
+	int *a = targ.a, *b = targ.b, *c = targ.c;
+
 	int si = (targ.size / targ.num_thread) * targ.tid; 
 	int ei = min(si + targ.size / targ.num_thread, targ.size);
 
 	for(int i = si; i < ei; i++){
-		targ.c[i] = targ.a[i] + targ.b[i];
+		c[i] = a[i] + b[i];
 	}
 }
 

@@ -1,7 +1,7 @@
-all: vectorAddParallel
+all: VectorAddParallel
 
-vectorAddParallel: vectorAddParallel.c vectorAddParallel.h
-	gcc -std=c99 vectorAddParallel.c -o vectorAddParallel -lpthread
+VectorAddParallel: VectorAddParallel.c 
+	gcc -std=c99 VectorAddParallel.c -o VectorAddParallel -lpthread
 
 clean:
-	rm vectorAddParallel
+	rm VectorAddParallel

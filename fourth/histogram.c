@@ -5,7 +5,7 @@
 #include<time.h>
 #include<sys/time.h>
 
-#define RANGE 1000
+#define RANGE 10000
 
 int size, parts, num_threads, *a, *histogram;
 
@@ -28,7 +28,7 @@ void sequential_histogram() {
 
 	int bucketSize = RANGE / parts;
 	for (int i = 0; i < size; i++) {
-		histogram[a[i] / bucketSize]++;
+	//	histogram[a[i] / bucketSize]++;
 	}
 }
 
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]){
 	sequential_histogram();
 
     gettimeofday(&end, NULL);
-
+/*
 	double diff = (end.tv_sec - start.tv_sec) * 1000000.0 +
 		(end.tv_usec - start.tv_usec);
 
@@ -103,6 +103,6 @@ int main(int argc, char *argv[]){
     printf("Naive Parallel Hisrogram time duration: %.4fms\n", diff / 1000);
 
 	print_histo(histogram, parts);
-
+*/
 	return 0;
 }

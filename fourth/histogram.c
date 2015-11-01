@@ -28,6 +28,7 @@ void sequential_histogram() {
 
 	int bucketSize = RANGE / parts;
 	for (int i = 0; i < size; i++) {
+//		printf("%d ", a[i]/ bucketSize);
 		histogram[a[i] / bucketSize]++;
 	}
 }
@@ -57,8 +58,8 @@ int main(int argc, char *argv[]){
 		num_threads = atoi(argv[3]);
 	}
 	
-	int *a = (int *) malloc(sizeof(int) * size);
-	int *histogram = (int *) calloc(parts, sizeof(int));
+	a = (int *) malloc(sizeof(int) * size);
+	histogram = (int *) calloc(parts, sizeof(int));
 
 	pthread_t threads[num_threads];
 	struct timeval start, end;
@@ -80,7 +81,7 @@ int main(int argc, char *argv[]){
 	printf("Sequential Histogram time duration: %.4fms\n", diff / 1000);
 	
 	print_histo(histogram, parts);
-/*
+
 	memset(histogram, 0, sizeof(int) * parts);
 
 	gettimeofday(&start, NULL);
@@ -102,6 +103,6 @@ int main(int argc, char *argv[]){
     printf("Naive Parallel Hisrogram time duration: %.4fms\n", diff / 1000);
 
 	print_histo(histogram, parts);
-	*/
+	
 	return 0;
 }

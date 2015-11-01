@@ -28,7 +28,7 @@ void sequential_histogram() {
 
 	int bucketSize = RANGE / parts;
 	for (int i = 0; i < size; i++) {
-	//	histogram[a[i] / bucketSize]++;
+		histogram[a[i] / bucketSize]++;
 	}
 }
 
@@ -47,8 +47,7 @@ void print_histo(int *histogram, int parts) {
 
 
 int main(int argc, char *argv[]){
-	
-	int size, parts, num_threads;
+
 	if (argc < 4) {
 		printf("Enter arrayLength, numberOfParts and numberOfThreads: ");
 		scanf("%d %d %d", &size, &parts, &num_threads);
@@ -74,14 +73,14 @@ int main(int argc, char *argv[]){
 	sequential_histogram();
 
     gettimeofday(&end, NULL);
-/*
+
 	double diff = (end.tv_sec - start.tv_sec) * 1000000.0 +
 		(end.tv_usec - start.tv_usec);
 
 	printf("Sequential Histogram time duration: %.4fms\n", diff / 1000);
 	
 	print_histo(histogram, parts);
-
+/*
 	memset(histogram, 0, sizeof(int) * parts);
 
 	gettimeofday(&start, NULL);
@@ -103,6 +102,6 @@ int main(int argc, char *argv[]){
     printf("Naive Parallel Hisrogram time duration: %.4fms\n", diff / 1000);
 
 	print_histo(histogram, parts);
-*/
+	*/
 	return 0;
 }

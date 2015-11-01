@@ -77,10 +77,10 @@ int main(int argc, char *argv[]){
 
 	gettimeofday(&end, NULL); 
 	
-	double diff = (end.tv_sec - start.tv_sec) * 1000.0 + 
+	double diff = (end.tv_sec - start.tv_sec) * 1000000.0 + 
 		(end.tv_usec - start.tv_usec);
 	
-	printf("Naive VectorAdd time calculation duration: %8.5fms\n", diff);
+	printf("Naive VectorAdd time calculation duration: %8.5fms\n", diff / 1000);
 	
 	// first
 	gettimeofday(&start, NULL); 
@@ -89,10 +89,10 @@ int main(int argc, char *argv[]){
 
 	gettimeofday(&end, NULL); 
 	
-	diff = (end.tv_sec - start.tv_sec) * 1000.0 + 
+	diff = (end.tv_sec - start.tv_sec) * 1000000.0 + 
 		(end.tv_usec - start.tv_usec);
 	
-	printf("First VectorAdd time calculation duration: %8.5fms\n", diff);
+	printf("First VectorAdd time calculation duration: %8.5fms\n", diff / 1000);
 	
 	// two
 	gettimeofday(&start, NULL); 
@@ -101,10 +101,10 @@ int main(int argc, char *argv[]){
 
 	gettimeofday(&end, NULL); 
 	
-	diff = (end.tv_sec - start.tv_sec) * 1000.0 + 
+	diff = (end.tv_sec - start.tv_sec) * 1000000.0 + 
 		(end.tv_usec - start.tv_usec);
 	
-	printf("Second VectorAdd time calculation duration: %8.5fms\n", diff);
+	printf("Second VectorAdd time calculation duration: %8.5fms\n", diff / 1000);
 	
 	// three
 	gettimeofday(&start, NULL); 
@@ -113,10 +113,10 @@ int main(int argc, char *argv[]){
 
 	gettimeofday(&end, NULL); 
 	
-	diff = (end.tv_sec - start.tv_sec) * 1000.0 + 
+	diff = (end.tv_sec - start.tv_sec) * 1000000.0 + 
 		(end.tv_usec - start.tv_usec);
 	
-	printf("Third VectorAdd time calculation duration: %8.5fms\n", diff);
+	printf("Third VectorAdd time calculation duration: %8.5fms\n", diff / 1000);
 	
 	// four
 	gettimeofday(&start, NULL); 
@@ -125,10 +125,10 @@ int main(int argc, char *argv[]){
 
 	gettimeofday(&end, NULL); 
 	
-	diff = (end.tv_sec - start.tv_sec) * 1000.0 + 
+	diff = (end.tv_sec - start.tv_sec) * 1000000.0 + 
 		(end.tv_usec - start.tv_usec);
 	
-	printf("Fourth VectorAdd time calculation duration: %8.5fms\n", diff);
+	printf("Fourth VectorAdd time calculation duration: %8.5fms\n", diff / 1000);
 	// TODO: validation
 	// TODO: validation
 	// TODO: validation

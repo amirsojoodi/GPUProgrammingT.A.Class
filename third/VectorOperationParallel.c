@@ -3,6 +3,7 @@
 #include<pthread.h>
 #include<time.h>
 #include<sys/time.h>
+#include<math.h>
 
 #define min(a,b) ((a) < (b) ? a : b)
 
@@ -34,14 +35,16 @@ void *naive_parallel_vector_add(void *arg){
 	int ei = min(si + targ.size / targ.num_thread, targ.size);
 
 	for(int i = si; i < ei; i++){
-		c[i] = a[i] + b[i];
+		c[i] =(int) (sin(a[i])* b[i] + sin(b[i]) * a[i] +
+			log10(a[i]*b[i]) + cos(a[i]) * b[i] + cos(b[i])*a[i]);
 	}
 	pthread_exit(NULL);
 }
 
 void sequential_naive_vectorAdd(int *a, int *b, int *c, int size){
-    for(int i = 0; i < size; i++){
-        c[i] = a[i] + b[i];
+    for(int i = 0; i < size; i++){ 
+		c[i] =(int) (sin(a[i])* b[i] + sin(b[i]) * a[i] +
+			log10(a[i]*b[i]) + cos(a[i]) * b[i] + cos(b[i])*a[i]);
     }
 }
 

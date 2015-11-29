@@ -1,0 +1,123 @@
+        -:    0:Source:VectorOperations.c
+        -:    0:Graph:VectorOperations.gcno
+        -:    0:Data:VectorOperations.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <math.h>
+        -:    2:#include <stdio.h>
+        -:    3:#include <stdlib.h>
+        -:    4:
+function initialize called 1 returned 100% blocks executed 100%
+        1:    5:void initialize(int *a, int *b, int *c, int *d, int input_length) {
+ 10000001:    6:	for (int i = 0; i < input_length; i++) {
+branch  0 taken 99%
+branch  1 taken 1% (fallthrough)
+ 10000000:    7:		a[i] = rand() % 100;
+call    0 returned 100%
+ 10000000:    8:		b[i] = rand() % 100;
+call    0 returned 100%
+ 10000000:    9:		c[i] = 0;
+ 10000000:   10:		d[i] = 0;
+        -:   11:	}
+        1:   12:}
+        -:   13:
+function validate called 3 returned 100% blocks executed 71%
+        3:   14:void validate(int *a, int *b, int length) {
+ 30000003:   15:	for (int i = 0; i < length; ++i) {
+branch  0 taken 99%
+branch  1 taken 1% (fallthrough)
+ 30000000:   16:		if (a[i] != b[i]) {
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:   17:			printf("Different value detected at position: %d,"
+call    0 never executed
+    #####:   18:					"expected %d but get %d\n", i, a[i], b[i]);
+    #####:   19:			break;
+        -:   20:		}
+        -:   21:	}
+        3:   22:}
+        -:   23:
+function vector_sincos called 2 returned 100% blocks executed 100%
+        2:   24:void vector_sincos(int *a, int *b, int *c, int size) {
+ 20000002:   25:	for (int i = 0; i < size; i++) {
+branch  0 taken 99%
+branch  1 taken 1% (fallthrough)
+ 20000000:   26:		c[i] = (int) sin(a[i]) * (int) cos(b[i]);
+        -:   27:	}
+        2:   28:}
+        -:   29:
+function vector_multiply called 2 returned 100% blocks executed 100%
+        2:   30:void vector_multiply(int *a, int *b, int *c, int size) {
+ 20000002:   31:	for (int i = 0; i < size; i++) {
+branch  0 taken 99%
+branch  1 taken 1% (fallthrough)
+ 20000000:   32:		c[i] = a[i] * b[i];
+        -:   33:	}
+        2:   34:}
+        -:   35:
+function vector_add called 2 returned 100% blocks executed 100%
+        2:   36:void vector_add(int *a, int *b, int *c, int size) {
+ 20000002:   37:	for (int i = 0; i < size; i++) {
+branch  0 taken 99%
+branch  1 taken 1% (fallthrough)
+ 20000000:   38:		c[i] = a[i] + b[i];
+        -:   39:	}
+        2:   40:}
+        -:   41:
+function main called 1 returned 100% blocks executed 83%
+        1:   42:int main(int argc, char *argv[]) {
+        -:   43:
+        -:   44:	int input_length;
+        -:   45:
+        1:   46:	if (argc != 2) {
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:   47:		printf("Usage is: VectorAddParallel input_length, type input_length: ");
+call    0 never executed
+    #####:   48:		scanf("%d", &input_length);
+call    0 never executed
+    #####:   49:		return EXIT_FAILURE;
+        -:   50:	} else{
+        1:   51:		input_length = atoi(argv[1]);
+call    0 returned 100%
+        -:   52:	}
+        -:   53:
+        -:   54:	int *a, *b, *c, *d;
+        1:   55:	a = (int *) malloc(sizeof(int) * input_length);
+        1:   56:	b = (int *) malloc(sizeof(int) * input_length);
+        1:   57:	c = (int *) malloc(sizeof(int) * input_length);
+        1:   58:	d = (int *) malloc(sizeof(int) * input_length);
+        -:   59:
+        1:   60:	initialize(a, b, c, d, input_length);
+call    0 returned 100%
+        -:   61:
+        -:   62:	// addition
+        1:   63:	vector_add(a, b, c, input_length);
+call    0 returned 100%
+        1:   64:	vector_add(a, b, d, input_length);
+call    0 returned 100%
+        -:   65:
+        1:   66:	validate(c, d, input_length);
+call    0 returned 100%
+        -:   67:
+        -:   68:	// multiplication
+        1:   69:	vector_multiply(a, b, c, input_length);
+call    0 returned 100%
+        1:   70:	vector_multiply(a, b, d, input_length);
+call    0 returned 100%
+        -:   71:
+        1:   72:	validate(c, d, input_length);
+call    0 returned 100%
+        -:   73:
+        -:   74:	// Sin & Cos
+        1:   75:	vector_sincos(a, b, c, input_length);
+call    0 returned 100%
+        1:   76:	vector_sincos(a, b, d, input_length);
+call    0 returned 100%
+        -:   77:
+        1:   78:	validate(c, d, input_length);
+call    0 returned 100%
+        -:   79:
+        1:   80:	return 0;
+        -:   81:}
+        -:   82:

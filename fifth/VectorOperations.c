@@ -46,7 +46,6 @@ int main(int argc, char *argv[]) {
 	if (argc != 2) {
 		printf("Usage is: VectorAddParallel input_length, type input_length: ");
 		scanf("%d", &input_length);
-		return EXIT_FAILURE;
 	} else{
 		input_length = atoi(argv[1]);
 	}
@@ -76,6 +75,11 @@ int main(int argc, char *argv[]) {
 	vector_sincos(a, b, d, input_length);
 
 	validate(c, d, input_length);
+
+	free(a);
+	free(b);
+	free(c);
+	free(d);
 
 	return 0;
 }

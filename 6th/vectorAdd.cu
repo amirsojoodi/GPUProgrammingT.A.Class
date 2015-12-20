@@ -87,10 +87,6 @@ int main(int argc, char *argv[]) {
 	// Initialization on host side
     initialize(a_h, b_h, c_h, d_h, input_length);
 
-	// Copy input data to device
-	CUDA_CHECK_RETURN(cudaMemcpy(a_d, a_h, sizeof(int)*input_length, cudaMemcpyHostToDevice));
-	CUDA_CHECK_RETURN(cudaMemcpy(b_d, b_h, sizeof(int)*input_length, cudaMemcpyHostToDevice));
-
 	// Run host code
 	gettimeofday(&start, NULL);
 	vector_add(a_h, b_h, c_h, input_length);
@@ -108,18 +104,25 @@ int main(int argc, char *argv[]) {
 	dim3 block_dime(block_size, 1, 1);
 
 	gettimeofday(&start, NULL);
+	
+	// Copy input data to device
+	CUDA_CHECK_RETURN(cudaMemcpy(a_d, a_h, sizeof(int)*input_length, cudaMemcpyHostToDevice));
+	CUDA_CHECK_RETURN(cudaMemcpy(b_d, b_h, sizeof(int)*input_length, cudaMemcpyHostToDevice));
+
 	vector_add_kernel<<< grid_dime, block_dime >>>(a_d, b_d, d_d, work_per_thread, input_length);
+
 	CUDA_CHECK_RETURN(cudaDeviceSynchronize());	// Wait for the GPU launched work to complete
 	CUDA_CHECK_RETURN(cudaGetLastError());
+	
+	//Copy back the result
+	CUDA_CHECK_RETURN(cudaMemcpy(d_h, d_d, sizeof(int)*input_length, cudaMemcpyDeviceToHost));
+
 	gettimeofday(&end, NULL);
 
 	diff = (end.tv_sec - start.tv_sec) * 1000000.0 +
         (end.tv_usec - start.tv_usec);
         
     printf("Device VectorAdd time calculation duration: %8.5fms\n", diff / 1000);
-
-	//Copy back the result
-	CUDA_CHECK_RETURN(cudaMemcpy(d_h, d_d, sizeof(int)*input_length, cudaMemcpyDeviceToHost));
 
 	// Validation
 	validate(c_h, d_h, input_length);

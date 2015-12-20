@@ -75,11 +75,16 @@ int main(int argc, char *argv[]) {
 	int *a_d, *b_d, *d_d;
 
 	// Allocation on Host
-	a_h = (int *) malloc(sizeof(int) * input_length);
-	b_h = (int *) malloc(sizeof(int) * input_length);
+	//a_h = (int *) malloc(sizeof(int) * input_length);
+	//b_h = (int *) malloc(sizeof(int) * input_length);
 	c_h = (int *) malloc(sizeof(int) * input_length);
-	d_h = (int *) malloc(sizeof(int) * input_length);
+	//d_h = (int *) malloc(sizeof(int) * input_length);
 
+	cudaMallocHost(&a_h, sizeof(int) * input_length);
+	cudaMallocHost(&b_h, sizeof(int) * input_length);
+	//cudaMallocHost(&c_h, sizeof(int) * input_length);
+	cudaMallocHost(&d_h, sizeof(int) * input_length);
+	
 	// Allocation on Device
 	CUDA_CHECK_RETURN(cudaMalloc((void **)&a_d, sizeof(int)*input_length));
 	CUDA_CHECK_RETURN(cudaMalloc((void **)&b_d, sizeof(int)*input_length));
@@ -100,6 +105,11 @@ int main(int argc, char *argv[]) {
 
 	// Run device code
 
+	
+	for (int i = 0; i < STREAM_NUMBER; ++i) {
+		cudaStreamCreate(&streams[i]);
+	}
+
 	gettimeofday(&start, NULL);
 
 	// Copy input data to device
@@ -114,15 +124,21 @@ int main(int argc, char *argv[]) {
 	dim3 block_dime(block_size, 1, 1);
 	int totalThreads = grid_size * block_size;
 
-	for (int i = 0; i < STREAM_NUMBER; ++i) {
-		cudaStreamCreate(&streams[i]);
+	for (int i = 0; i < STREAM_NUMBER + 2; ++i) {
 		int offset = i * streamSize;
-		cudaMemcpyAsync(&a_d[offset], &a_h[offset], streamBytes, cudaMemcpyHostToDevice, streams[i]);
-		cudaMemcpyAsync(&b_d[offset], &b_h[offset], streamBytes, cudaMemcpyHostToDevice, streams[i]);
 
-		vector_add_kernel_coalesced_access<<< grid_dime, block_dime, 0, streams[i]>>>(&a_d[offset], &b_d[offset], &d_d[offset], work_per_thread, streamSize, totalThreads);
-
-		cudaMemcpyAsync(&d_h[offset], &d_d[offset], streamBytes, cudaMemcpyDeviceToHost, streams[i]);
+		if(i < STREAM_NUMBER){
+			cudaMemcpyAsync(&a_d[offset], &a_h[offset], streamBytes, cudaMemcpyHostToDevice, streams[i]);
+			cudaMemcpyAsync(&b_d[offset], &b_h[offset], streamBytes, cudaMemcpyHostToDevice, streams[i]);
+		}
+		if(i > 0 && i < STREAM_NUMBER + 1){
+			offset = (i-1) * streamSize;
+			vector_add_kernel_coalesced_access<<< grid_dime, block_dime, 0, streams[i-1]>>>(&a_d[offset], &b_d[offset], &d_d[offset], work_per_thread, streamSize, totalThreads);
+		}
+		if(i > 1){
+			offset = (i-2) * streamSize;
+			cudaMemcpyAsync(&d_h[offset], &d_d[offset], streamBytes, cudaMemcpyDeviceToHost, streams[i-2]);
+		}
 	}
 	
 	//Copy back the result
@@ -140,10 +156,10 @@ int main(int argc, char *argv[]) {
 	// Validation
 	validate(c_h, d_h, input_length);
 
-	free(a_h);
-	free(b_h);
+	cudaFree(a_h);
+	cudaFree(b_h);
 	free(c_h);
-	free(d_h);
+	cudaFree(d_h);
 	cudaFree(a_d);
 	cudaFree(b_d);
 	cudaFree(d_d);

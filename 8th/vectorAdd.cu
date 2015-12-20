@@ -4,7 +4,7 @@
 #include<sys/time.h>
 #include<time.h>
 
-#define STREAM_NUMBER 30
+#define STREAM_NUMBER 10
 
 //Macro for checking cuda errors following a cuda launch or api call
 #define CUDA_CHECK_RETURN(value) {											\
@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
 		cudaMemcpyAsync(&a_d[offset], &a_h[offset], streamBytes, cudaMemcpyHostToDevice, streams[i]);
 		cudaMemcpyAsync(&b_d[offset], &b_h[offset], streamBytes, cudaMemcpyHostToDevice, streams[i]);
 
-		vector_add_kernel_coalesced_access<<< grid_dime, block_dime >>>(&a_d[offset], &b_d[offset], &d_d[offset], work_per_thread, streamSize, totalThreads);
+		vector_add_kernel_coalesced_access<<< grid_dime, block_dime, 0, streams[i]>>>(&a_d[offset], &b_d[offset], &d_d[offset], work_per_thread, streamSize, totalThreads);
 
 		cudaMemcpyAsync(&d_h[offset], &d_d[offset], streamBytes, cudaMemcpyDeviceToHost, streams[i]);
 	}

@@ -138,6 +138,9 @@ int main(int argc, char *argv[]){
 	//print_array("B", b, size);
 	//print_array("C", c, size);
 
+	free(a);
+	free(b);
+	free(c);
 
 	return 0;
 }
